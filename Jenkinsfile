@@ -7,7 +7,6 @@ pipeline {
             steps { 
                 echo 'Cleaning..'
                 sh './gradlew clean'
-                sh './gradlew lintFix'
             }
         }
         stage('Build') {

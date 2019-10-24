@@ -1,105 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
-    android:gravity="center"
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TableRow
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10pt"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Other player email"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/burequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3pt"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:onClick="butRequestEvent"
+            android:text="Request" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3pt"
+            android:layout_weight="1"
+            android:background="@color/green"
+            android:onClick="butAcceptEvent"
+            android:text="Accept" />
+    </LinearLayout>
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="3pt"
-        android:gravity="center_horizontal">
+        android:background="@color/blue"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/but1"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="3pt"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/but2"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+            <Button
+                android:id="@+id/but1"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-        <Button
-            android:id="@+id/but3"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+            <Button
 
-    </TableRow>
+                android:id="@+id/but2"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3pt"
-        android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/but3"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/but4"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="3pt"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/but5"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+            <Button
+                android:id="@+id/but4"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-        <Button
-            android:id="@+id/but6"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
-    </TableRow>
+            <Button
+                android:id="@+id/but5"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3pt"
-        android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/but6"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/but7"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/but8"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+            <Button
+                android:id="@+id/but7"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-        <Button
-            android:id="@+id/but9"
-            android:layout_width="40pt"
-            android:layout_height="40pt"
-            android:layout_marginLeft="3pt"
-            android:background="@color/whiteBackground"
-            android:onClick="butClick"/>
+            <Button
+                android:id="@+id/but8"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:layout_marginRight="3pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
 
-    </TableRow>
-</TableLayout>
+            <Button
+                android:id="@+id/but9"
+                android:layout_width="40pt"
+                android:layout_height="40pt"
+                android:background="@color/white"
+                android:onClick="butClick" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

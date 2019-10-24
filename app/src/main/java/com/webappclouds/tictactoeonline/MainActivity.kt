@@ -9,10 +9,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -134,11 +130,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (winner == 1) {
-            player1WinsCount ++
+            player1WinsCount++
             Toast.makeText(this, "Player 1 is the winner", Toast.LENGTH_LONG).show()
             restartGame()
         } else if (winner == 2) {
-            player2WinsCount ++
+            player2WinsCount++
             Toast.makeText(this, "Player 2 is the winner", Toast.LENGTH_LONG).show()
             restartGame()
         }
@@ -152,7 +148,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if(emptyCells.size == 0){
+        if (emptyCells.size == 0) {
             restartGame()
         }
 
@@ -178,6 +174,15 @@ class MainActivity : AppCompatActivity() {
 
         playGame(cellId, butSelected)
 
+    }
+
+    fun butRequestEvent(view: View) {
+        var userEmail = etEmail.text.toString()
+
+    }
+
+    fun butAcceptEvent(view: View) {
+        var userEmail = etEmail.text.toString()
     }
 
     var player1WinsCount = 0
@@ -210,6 +215,10 @@ class MainActivity : AppCompatActivity() {
             butSelected.isEnabled = true
         }
 
-        Toast.makeText(this, "Player1: $player1WinsCount, Player2: $player2WinsCount", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this,
+            "Player1: $player1WinsCount, Player2: $player2WinsCount",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -14,13 +15,19 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
+    private var database = FirebaseDatabase.getInstance()
+    private var myRef = database.reference
 
+    var myEmail:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+        var bundle:Bundle = intent.extras!!
+        myEmail = bundle.getString("email")
     }
 
     fun butClick(view: View) {
@@ -178,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
     fun butRequestEvent(view: View) {
         var userEmail = etEmail.text.toString()
-
+        myRef.child("Users").child(userEmail).child("Request").push().setValue(myEmail)
     }
 
     fun butAcceptEvent(view: View) {

@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         }
 //        Toast.makeText(this, "Button Pressed: $cellId", Toast.LENGTH_LONG).show()
 
-        playGame(cellId, butSelected)
+//        playGame(cellId, butSelected)
+        myRef.child("PlayerOnline").child(sessionID!!).child(cellId.toString()).setValue(myEmail)
     }
 
     var activePlayer = 1
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             butSelect.setBackgroundResource(R.color.blue)
             player1.add(cellId)
             activePlayer = 2
-            autoPlay()
+//            autoPlay()
         } else {
             butSelect.text = "O"
             butSelect.setBackgroundResource(R.color.darkGreen)
@@ -152,7 +153,43 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun autoPlay() {
+//    private fun autoPlay() {
+//        var emptyCells = ArrayList<Int>()
+//        for (cellId in 1..9) {
+//            if (!(player1.contains(cellId) || player2.contains(cellId))) {
+//                emptyCells.add(cellId)
+//            }
+//        }
+//
+//        if (emptyCells.size == 0) {
+//            restartGame()
+//        }
+//
+//        val r = Random()
+//        val randIndex = r.nextInt(emptyCells.size - 0) + 0
+//        val cellId = emptyCells[randIndex]
+//
+//        var butSelected: Button?
+//        butSelected = when (cellId) {
+//            1 -> but1
+//            2 -> but2
+//            3 -> but3
+//            4 -> but4
+//            5 -> but5
+//            6 -> but6
+//            7 -> but7
+//            8 -> but8
+//            9 -> but9
+//            else -> {
+//                but1
+//            }
+//        }
+//
+//        playGame(cellId, butSelected)
+//
+//    }
+
+    private fun autoPlay(cellId: Int) {
         var emptyCells = ArrayList<Int>()
         for (cellId in 1..9) {
             if (!(player1.contains(cellId) || player2.contains(cellId))) {
@@ -190,16 +227,56 @@ class MainActivity : AppCompatActivity() {
 
     fun butRequestEvent(view: View) {
         var userEmail = etEmail.text.toString()
-        myRef.child("Users").child(SplitString(userEmail)).child("Request").push().setValue(myEmail)
+        myRef.child("Users").child(splitString(userEmail)).child("Request").push().setValue(myEmail)
+
+        playerOnline(splitString(myEmail!!) + splitString(userEmail))
+        playerSymbol = "X"
     }
 
     fun butAcceptEvent(view: View) {
         var userEmail = etEmail.text.toString()
-        myRef.child("Users").child(SplitString(userEmail)).child("Request").push().setValue(myEmail)
+        myRef.child("Users").child(splitString(userEmail)).child("Request").push().setValue(myEmail)
+
+        playerOnline(splitString(userEmail) + splitString(myEmail!!))
+        playerSymbol = "O"
+    }
+
+    var sessionID: String? = null
+    var playerSymbol: String? = null
+    fun playerOnline(sessionID: String) {
+        this.sessionID = sessionID
+        myRef.child("PlayerOnline").child(sessionID)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    try {
+                        player1.clear()
+                        player2.clear()
+                        val td = dataSnapshot!!.value as HashMap<String, Any>
+                        if (td != null) {
+
+                            var value: String
+                            for (key in td.keys) {
+                                value = td[key] as String
+
+                                if (value != myEmail) {
+                                    activePlayer = if (playerSymbol === "X") 1 else 2
+                                } else {
+                                    activePlayer = if (playerSymbol === "X") 2 else 1
+                                }
+                                autoPlay(key.toInt())
+                            }
+                        }
+                    } catch (ex: Exception) {
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                }
+            })
     }
 
     fun incomingCalls() {
-        myRef.child("Users").child(SplitString(myEmail!!)).child("Request")
+        myRef.child("Users").child(splitString(myEmail!!)).child("Request")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     try {
@@ -209,7 +286,7 @@ class MainActivity : AppCompatActivity() {
                             for (key in td.keys) {
                                 value = td[key] as String
                                 etEmail.setText(value)
-                                myRef.child("Users").child(SplitString(myEmail!!)).child("Request")
+                                myRef.child("Users").child(splitString(myEmail!!)).child("Request")
                                     .setValue(true)
 
                                 break
@@ -225,7 +302,7 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun SplitString(str: String): String {
+    fun splitString(str: String): String {
         var split = str.split("@")
         return split[0]
     }

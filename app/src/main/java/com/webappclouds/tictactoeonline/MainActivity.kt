@@ -6,10 +6,14 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var database = FirebaseDatabase.getInstance()
     private var myRef = database.reference
 
-    var myEmail:String?=null
+    var myEmail: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,8 +30,9 @@ class MainActivity : AppCompatActivity() {
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        var bundle:Bundle = intent.extras!!
+        var bundle: Bundle = intent.extras!!
         myEmail = bundle.getString("email")
+        incomingCalls()
     }
 
     fun butClick(view: View) {
@@ -185,11 +190,44 @@ class MainActivity : AppCompatActivity() {
 
     fun butRequestEvent(view: View) {
         var userEmail = etEmail.text.toString()
-        myRef.child("Users").child(userEmail).child("Request").push().setValue(myEmail)
+        myRef.child("Users").child(SplitString(userEmail)).child("Request").push().setValue(myEmail)
     }
 
     fun butAcceptEvent(view: View) {
         var userEmail = etEmail.text.toString()
+        myRef.child("Users").child(SplitString(userEmail)).child("Request").push().setValue(myEmail)
+    }
+
+    fun incomingCalls() {
+        myRef.child("Users").child(SplitString(myEmail!!)).child("Request")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        val td = p0.value as HashMap<String, Any>
+                        if (td != null) {
+                            var value: String
+                            for (key in td.keys) {
+                                value = td[key] as String
+                                etEmail.setText(value)
+                                myRef.child("Users").child(SplitString(myEmail!!)).child("Request")
+                                    .setValue(true)
+
+                                break
+                            }
+                        }
+                    } catch (ex: Exception) {
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun SplitString(str: String): String {
+        var split = str.split("@")
+        return split[0]
     }
 
     var player1WinsCount = 0
